@@ -1,0 +1,3 @@
+= Example for iframe communication
+
+Example where the parent window sends Amersfoort to the iframe and the iframe sends Amsterdam to the parent window.
