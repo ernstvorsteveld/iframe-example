@@ -1,0 +1,5 @@
+ docker build -f Dockerfile-iframe -t iframe-nginx .
+ docker run --rm --name iframe-nginx -p 8081:80 iframe-nginx
+
+  docker build -t index .
+  docker run --rm --name index -p 8080:80 index
