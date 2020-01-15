@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>IFrame - Nginx Docker</title>
+</head>
+<body>
+  <h1>
+      Hello World in an IFrame.
+  </h1>
+
+  <p>Send Message: <button id="message_button">Send "Amersfoort" to iFrame</button></p>
+  <p>Got Message back:</p>
+  <div id="results"></div>
+
+  <iframe id="myiframe" src="http://localhost:8081/index.html" ></iframe>
+
+  <script>
+    function bindEvent(element, eventName, eventHandler) {
+      console.log("Main: Attaching to element " + element + ", event: " + eventName);
+      if (element.addEventListener) {
+        element.addEventListener(eventName, eventHandler, false);
+      } else if (element.attachEvent) {
+        element.attachEvent('on' + eventName, eventHandler);
+      }
+    }
+
+    var myiframe = document.getElementById('myiframe'),
+      messageButton = document.getElementById('message_button'),
+      results = document.getElementById('results');
+
+    var sendMessage = function(msg) {
+      console.log("Main: About to send message 'Amersfoort'")
+      myiframe.contentWindow.postMessage(msg, '*');
+    };
+
+    bindEvent(messageButton, 'click', function (e) {
+      sendMessage("Amersfoort");
+    });
+
+    // Listen to message from child window
+    bindEvent(window, 'message', function (e) {
+      console.log("Main: Received message: " + e.data);
+      results.innerHTML = e.data;
+    });
+
+  </script>
+
+</body>
+</html>

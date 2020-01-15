@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Hello World - Nginx Docker</title>
+    <style>
+        h1{
+            font-weight:lighter;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+    </style>
+</head>
+<body>
+
+  <h1>Hello there, i'm an iframe</h1>
+  <p>Send Message: <button id="message_button">Send "Amsterdam"</button></p>
+  <p>Got Message:</p>
+  <div id="results"></div>
+  <script>
+    function bindEvent(element, eventName, eventHandler) {
+      console.log("IFrame: Attaching to element " + element + ", event: " + eventName);
+
+      if (element.addEventListener) {
+        element.addEventListener(eventName, eventHandler, false);
+      } else if (element.attachEvent) {
+        element.attachEvent('on' + eventName, eventHandler);
+      }
+    }
+
+    var sendMessage = function (msg) {
+      console.log("IFrame: About to post the message: " + msg);
+      window.parent.postMessage(msg, '*');
+    };
+
+    var results = document.getElementById('results'),
+    messageButton = document.getElementById('message_button');
+
+    bindEvent(window, 'message', function (e) {
+      console.log("IFrame: received data: " + e.data);
+      results.innerHTML = e.data;
+    });
+
+    bindEvent(messageButton, 'click', function (e) {
+      sendMessage("Amsterdam");
+    });
+  </script>
+
+</body>
+</html>
